@@ -9,9 +9,9 @@
 
         <form
             class="bg-white shadow-md rounded-lg py-10 px-5 mb-10"
-
-            
+            @submit.prevent="validar"         
         >   
+             
             <!-- Begin Input -->
             <div class="mb-5">
                 <label 
@@ -27,6 +27,7 @@
                     type="text"
                     placeholder="Nombre de la mascota"
                     class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+                    v-model="paciente.nombre"
                 />
             </div>
             <!-- end Input -->
@@ -36,7 +37,6 @@
                 <label 
                     for="propietario"
                     class="block text-gray-700 uppercase font-bold"
-                
                 >
                     Nombre Propietario
                 </label>
@@ -46,6 +46,7 @@
                     type="text"
                     placeholder="Nombre del propietario"
                     class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+                    v-model="paciente.propietario"
                 />
             </div>
             <!-- end Input -->
@@ -55,7 +56,6 @@
                 <label 
                     for="email"
                     class="block text-gray-700 uppercase font-bold"
-                
                 >
                     Email
                 </label>
@@ -65,6 +65,7 @@
                     type="email"
                     placeholder="Email del propietario"
                     class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+                    v-model="paciente.email"
                 />
             </div>
             <!-- end Input -->
@@ -83,6 +84,7 @@
                     id="alta"
                     type="date"
                     class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+                    v-model="paciente.alta"
                 />
             </div>
             <!-- end Input -->
@@ -101,6 +103,7 @@
                     id="sintomas"
                     placeholder="Describe los síntomas"
                     class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md h-40"
+                    v-model="paciente.sintomas"
                 />
             </div>
             <!-- end Input -->
@@ -108,8 +111,8 @@
             <input 
                 type="submit"
                 class="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
-                value="Registrar Paciente"   
-                
+                value="Registrar Paciente"
+                  
             />
 
 
@@ -120,7 +123,19 @@
     </div>
 </template>
 
-<script>
-    
+<script setup>
+    import { reactive } from 'vue';
+
+    const paciente = reactive({
+        nombre: '',
+        propietario: '',
+        email: '',
+        alta: '',
+        sintomas: ''
+    })
+
+    const validar = () => {
+        console.log('validando')
+    }
 </script>
 
