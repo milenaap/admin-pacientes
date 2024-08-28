@@ -1,122 +1,82 @@
 <template>
     <div class="md:w-1/2">
         <h2 class="font-black text-3xl text-center">Seguimiento Pacientes</h2>
-        
+
         <p class="text-lg mt-5 text-center mb-10">
             Añade Pacientes y
             <span class="text-indigo-600 font-bold">Adminístralos</span>
         </p>
 
-        <form
-            class="bg-white shadow-md rounded-lg py-10 px-5 mb-10"
-            @submit.prevent="validar"         
-        >   
-             
-            <!-- Begin Input -->
+
+        <form class="bg-white shadow-md rounded-lg py-10 px-5 mb-10" @submit.prevent="validar">
+
+           
+            <!-- Begin Input nombre mascota-->
             <div class="mb-5">
-                <label 
-                    for="mascota"
-                    class="block text-gray-700 uppercase font-bold"
-                
-                >
+                <label for="mascota" class="block text-gray-700 uppercase font-bold">
                     Nombre Mascota
                 </label>
 
-                <input 
-                    id="mascota"
-                    type="text"
-                    placeholder="Nombre de la mascota"
+                <input id="mascota" type="text" placeholder="Nombre de la mascota"
                     class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
-                    v-model="paciente.nombre"
+                    @input="$emit('update:nombre', $event.target.value)"
                 />
             </div>
             <!-- end Input -->
 
-             <!-- Begin Input -->
+            <!-- Begin Input nombre propietario-->
             <div class="mb-5">
-                <label 
-                    for="propietario"
-                    class="block text-gray-700 uppercase font-bold"
-                >
+                <label for="propietario" class="block text-gray-700 uppercase font-bold">
                     Nombre Propietario
                 </label>
 
-                <input 
-                    id="propietario"
-                    type="text"
-                    placeholder="Nombre del propietario"
-                    class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
-                    v-model="paciente.propietario"
-                />
+                <input id="propietario" type="text" placeholder="Nombre del propietario"
+                    class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md" />
             </div>
             <!-- end Input -->
 
-            <!-- Begin Input -->
+            <!-- Begin Input email-->
             <div class="mb-5">
-                <label 
-                    for="email"
-                    class="block text-gray-700 uppercase font-bold"
-                >
+                <label for="email" class="block text-gray-700 uppercase font-bold">
                     Email
                 </label>
 
-                <input 
-                    id="email"
-                    type="email"
-                    placeholder="Email del propietario"
-                    class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
-                    v-model="paciente.email"
-                />
+                <input id="email" type="email" placeholder="Email del propietario"
+                    class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md" />
             </div>
             <!-- end Input -->
 
-            <!-- Begin Input -->
+            <!-- Begin Input alta-->
             <div class="mb-5">
-                <label 
-                    for="alta"
-                    class="block text-gray-700 uppercase font-bold"
-                
-                >
-                   Fecha de Alta
+                <label for="alta" class="block text-gray-700 uppercase font-bold">
+                    Fecha de Alta
                 </label>
 
-                <input 
-                    id="alta"
-                    type="date"
-                    class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
-                    v-model="paciente.alta"
-                />
+                <input id="alta" type="date" class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+                     />
             </div>
             <!-- end Input -->
 
-            <!-- Begin Input -->
+            <!-- Begin Input sintomas-->
             <div class="mb-5">
-                <label 
-                    for="sintomas"
-                    class="block text-gray-700 uppercase font-bold"
-                
-                >
-                   Síntomas
+                <label for="sintomas" class="block text-gray-700 uppercase font-bold">
+                    Síntomas
                 </label>
 
-                <textarea 
-                    id="sintomas"
-                    placeholder="Describe los síntomas"
-                    class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md h-40"
-                    v-model="paciente.sintomas"
-                />
+                <textarea id="sintomas" placeholder="Describe los síntomas"
+                    class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md h-40"/>
             </div>
             <!-- end Input -->
 
-            <input 
-                type="submit"
+
+            <input type="submit"
                 class="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
-                value="Registrar Paciente"
-                  
-            />
+                value="Registrar Paciente" />
 
+            <div class="mt-5">
 
-            
+                <Alerta v-if="alerta.mensaje" :alerta="alerta" />
+            </div>
 
         </form>
 
@@ -124,18 +84,33 @@
 </template>
 
 <script setup>
-    import { reactive } from 'vue';
+import { reactive } from 'vue';
+import Alerta from './Alerta.vue';
 
-    const paciente = reactive({
-        nombre: '',
-        propietario: '',
-        email: '',
-        alta: '',
-        sintomas: ''
-    })
+const alerta = reactive({
+    tipo: '',
+    mensaje: ''
 
-    const validar = () => {
-        console.log('validando')
+})
+
+defineEmits(['update:nombre'])
+
+const props = defineProps({
+    nombre: {
+        type: String,
+        required:true
     }
-</script>
+})
 
+
+const validar = () => {
+
+    if (Object.values(paciente).includes('')) {
+        alerta.mensaje = 'Todos los campos son obligatorios'
+        alerta.tipo = 'error'
+        return
+    }
+
+    console.log('agregando')
+}
+</script>
